@@ -26,7 +26,7 @@ module.exports = async (client, message) => {
 			if(message.member.roles.cache.has(r)) allowed = true
 		});
 		if(allowed) command.run(client, message, args)
-		else return message.channel.send("🔒 Missing permissions ")
+		else return message.channel.send("🔒 Missing permissions ").then(msg => msg.delete({ timeout: 3000 }))
 	};
 };
 
