@@ -1,0 +1,47 @@
+{
+	"guildID": "763859524351164436",
+	"prefix": "!",
+
+	"channels": {
+		"approvalQueue": "764935984986980363",
+		"deniedBugs": "764135662362165298",
+		"desktopBugs": "763861266707513344",
+		"androidBugs": "763861216119750748",
+		"iosBugs": "763861250362179636",
+		"marketingBugs": "763861553564876810",
+		"modLogs": "763861329311694891"
+	},
+
+	"roles": {
+		"developer": "763860080772775976",
+		"bugAdmin": "763860111176237057",
+		"bugTerminator": "763860113404461107",
+		"bugTracker": "763860113592156201",
+		"bugSquasher": "763860114502320138",
+		"bugHunter": "763860264260730890",
+		"desktop": "763860849806671902",
+		"androidAlpha": "763860778633658378",
+		"android": "763860779094507580",
+		"iosTestflight": "763860829962764328",
+		"ios": "763860778129817631"
+	},
+
+	"trello": {
+		"desktop": "",
+		"android": "",
+		"ios": "",
+		"marketing": ""
+	},
+
+	"colors": {
+		"desktop": "6f42c1",
+		"android": "77dd77",
+		"ios": "b7aecf",
+		"marketing": "19B4E1"
+	},
+
+	"emotes": {
+		"green": "<:green:764139008803733534>",
+		"red": "<:red:764139008502530090>"
+	}
+}
