@@ -40,6 +40,10 @@ module.exports = {
 			return message
 				.reply("Hmm that report doesnt exist :(")
 				.then((msg) => msg.delete({ timeout: 3000 }));
+		else if (foundReport.userID === message.author.id)
+			return message
+				.reply("You cannot approve your own report")
+				.then((msg) => msg.delete({ timeout: 3000 }));
 		else if (foundReport.stance === "Approved")
 			return message
 				.reply("This bug has already been approved.")
