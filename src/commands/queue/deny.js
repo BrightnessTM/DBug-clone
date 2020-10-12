@@ -36,7 +36,6 @@ module.exports = {
 		};
 
 		let stance = "";
-
 		const foundReport = await r({ reportID: id });
 		if (foundReport === null)
 			return message
