@@ -1,5 +1,5 @@
-const Report = require("../../handlers/report")
-const Log = require("../../handlers/logging")
+const Report = require("../../handlers/report");
+const Log = require("../../handlers/logging");
 
 module.exports = {
 	name: "submit",
@@ -7,60 +7,72 @@ module.exports = {
 	description: "Reports a bug",
 	roles: [],
 	run: async (client, message, args) => {
-        let current = 0;
+		message.delete({ timeout: 3000 });
 
-        let title = "";
-        let steps = ""
-        let actual = "";
-        let expected = "";
-        let clientSettings = "";
-        let systemSettings = "";
+		let current = 0;
 
-        for (let i = 0; i < args.length; i++) {
-            switch (args[i]) {
-                case "-t":
-                    current = 1
-                    i++;
-                    break;
-                case "-r":
-                    current = 2
-                    i++;
-                    break;
-                 case "-e":
-                    current = 3
-                    i++;
-                    break;
-                case "-a":
-                    current = 4
-                    i++;
-                    break;
-                case "-c":
-                    current = 5
-                    i++;
-                    break;
-                case "-s":
-                    current = 6
-                    i++;
-                    break;
-                default:
-                    break;
-            }
-            if(current === 1) title += `${args[i]} `
-            else if (current === 2) steps += `${args[i]} `
-            else if (current === 3) actual += `${args[i]} `
-            else if (current === 4) expected += `${args[i]} `
-            else if (current === 5) clientSettings += `${args[i]} `
-            else if (current === 6) systemSettings += `${args[i]} `
-        }
+		let title = "";
+		let steps = "";
+		let actual = "";
+		let expected = "";
+		let clientSettings = "";
+		let systemSettings = "";
 
-        steps = steps.split("-")
+		for (let i = 0; i < args.length; i++) {
+			switch (args[i]) {
+				case "-t":
+					current = 1;
+					i++;
+					break;
+				case "-r":
+					current = 2;
+					i++;
+					break;
+				case "-e":
+					current = 3;
+					i++;
+					break;
+				case "-a":
+					current = 4;
+					i++;
+					break;
+				case "-c":
+					current = 5;
+					i++;
+					break;
+				case "-s":
+					current = 6;
+					i++;
+					break;
+				default:
+					break;
+			}
+			if (current === 1) title += `${args[i]} `;
+			else if (current === 2) steps += `${args[i]} `;
+			else if (current === 3) actual += `${args[i]} `;
+			else if (current === 4) expected += `${args[i]} `;
+			else if (current === 5) clientSettings += `${args[i]} `;
+			else if (current === 6) systemSettings += `${args[i]} `;
+		}
 
-        Report.Send(client, message, title, steps, actual, expected, clientSettings, systemSettings)
+		steps = steps.split("-");
 
-        message.delete({ timeout: 3000 })
-        
-        Log.Send(client, `💡 New bug report with the title \`\`${title}\`\` submitted by **${message.author.username}**#${message.author.discriminator} (${message.author.id})`)
+		Report.Send(
+			client,
+			message,
+			title,
+			steps,
+			actual,
+			expected,
+			clientSettings,
+			systemSettings
+		);
 
-        return message.reply(":tada:").then(msg => msg.delete({ timeout: 3000 }))
+		Log.Send(
+			client,
+			`💡 New bug report with the title \`\`${title}\`\` submitted by **${message.author.username}**#${message.author.discriminator} (${message.author.id})`
+		);
+
+		return message.reply(":tada:").then((msg) => msg.delete({ timeout: 3000 }));
 	},
 };

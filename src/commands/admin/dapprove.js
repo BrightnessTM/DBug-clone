@@ -1,10 +1,10 @@
-const Report = require("../../models/report")
-const ReportHandler = require("../../handlers/report")
-const fs = require('fs');
+const Report = require("../../models/report");
+const ReportHandler = require("../../handlers/report");
+const fs = require("fs");
 
 const json = fs.readFileSync("./src/config.json");
-const Log = require("../../handlers/logging")
-const config = JSON.parse(json)
+const Log = require("../../handlers/logging");
+const config = JSON.parse(json);
 
 const clc = require("cli-color");
 
@@ -14,36 +14,58 @@ module.exports = {
 	description: "Admin approves a bug",
 	roles: ["763860080772775976", "763860111176237057"],
 	run: async (client, message, args) => {
-        const id = args[0]
-        const aMessage = args.slice(1).join(" ");
+		message.delete();
+		if (args[0] === undefined)
+			return message
+				.reply("You forgot the report id")
+				.then((msg) => msg.delete({ timeout: 3000 }));
+		if (args[1] === undefined)
+			return message
+				.reply("You forgot a reason for the approve")
+				.then((msg) => msg.delete({ timeout: 3000 }));
 
-        const r = async function (params) {
+		const id = args[0];
+		const aMessage = args.slice(1).join(" ");
+
+		const r = async function (params) {
 			try {
 				return await Report.findOne(params);
 			} catch (err) {
 				console.error(clc.red(err));
 			}
-        };
+		};
 
-        message.delete()
-      
-        const foundReport = await r({reportID: id})
-        if(foundReport === null) return message.reply("Hmm that report doesnt exist :(").then(msg => msg.delete({ timeout: 3000 }))
-        else if (foundReport.stance === "Approved" ) return message.reply("This bug has already been approved.").then(msg => msg.delete({ timeout: 3000 }))
-        else if (foundReport.stance === "Denied") return message.reply("This bug has been denied.").then(msg => msg.delete({ timeout: 3000 }))
+		const foundReport = await r({ reportID: id });
+		if (foundReport === null)
+			return message
+				.reply("Hmm that report doesnt exist :(")
+				.then((msg) => msg.delete({ timeout: 3000 }));
+		else if (foundReport.stance === "Approved")
+			return message
+				.reply("This bug has already been approved.")
+				.then((msg) => msg.delete({ timeout: 3000 }));
+		else if (foundReport.stance === "Denied")
+			return message
+				.reply("This bug has been denied.")
+				.then((msg) => msg.delete({ timeout: 3000 }));
 
+		await Report.findOneAndUpdate(
+			{ _id: foundReport._id },
+			{
+				$push: {
+					approves: `${config.emotes.green} ${message.author.username}#${message.author.discriminator}: ${aMessage}`,
+				},
+				stance: `Approved`,
+			}
+		);
 
-        await Report.findOneAndUpdate(
-          { _id: foundReport._id }, 
-          { $push: { approves: `${config.emotes.green} ${message.author.username}#${message.author.discriminator}: ${aMessage}` },  stance: `Approved` },
-      );
+		ReportHandler.UpdateStance(client, await r({ reportID: id }));
 
-      ReportHandler.UpdateStance(client,  await r({reportID: id}))
+		Log.Send(
+			client,
+			`✅✅✅ Bug \`\`#${foundReport.reportID}\`\` submitted by ${foundReport.userTag} (${foundReport.userID}) got **admin approved** by **${message.author.username}**#${message.author.discriminator} (${message.author.id})\n**Message:** ${aMessage}`
+		);
 
-      Log.Send(client, `✅✅✅ Bug \`\`#${foundReport.reportID}\`\` submitted by ${foundReport.userTag} (${foundReport.userID}) got **admin approved** by **${message.author.username}**#${message.author.discriminator} (${message.author.id})\n**Message:** ${aMessage}`)
-
-
-      return;
-     
-  },
+		return;
+	},
 };
