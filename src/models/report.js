@@ -14,6 +14,7 @@ const reportSchema = mongoose.Schema({
   client: String,
   approves: Array,
   denies: Array,
+  notes: Array,
   stance: String,
   reportDate: Date,
 });

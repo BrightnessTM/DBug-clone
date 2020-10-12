@@ -45,18 +45,26 @@ module.exports = {
 
         if(report.approves.length > 0){
             let message = ""
-            report.approves.forEach(r => {
-                message += `${r} \n`
+            report.approves.forEach(a => {
+                message += `${a} \n`
             });
             embed.addField("Approved", message)
         }
 
         if(report.denies.length > 0){
             let message = ""
-            report.denies.forEach(r => {
-                message += `${r} \n`
+            report.denies.forEach(d => {
+                message += `${d} \n`
             });
             embed.addField("Denied", message)
+        }
+
+        if(report.notes.length > 0){
+            let message = ""
+            report.notes.forEach(n => {
+                message += `${n} \n`
+            });
+            embed.addField("Notes", message)
         }
 
         message.edit(message.content, {embed})
@@ -96,6 +104,14 @@ function ApprovedBug(client, report, oEmbed){
             message += `${r} \n`
         });
         embed.addField("Cannot Reproduce", message)
+    }
+
+    if(report.notes.length > 0){
+        let message = ""
+        report.notes.forEach(n => {
+            message += `${n} \n`
+        });
+        embed.addField("Notes", message)
     }
 
     client.channels.cache.get(report.platform).send(embed).then(msg => {
@@ -138,6 +154,14 @@ function DeniedBug(client, report, oEmbed, content){
         embed.addField("Cannot Reproduce", message)
     }
 
+    if(report.notes.length > 0){
+        let message = ""
+        report.notes.forEach(n => {
+            message += `${n} \n`
+        });
+        embed.addField("Notes", message)
+    }
+
     client.channels.cache.get(config.channels.deniedBugs).send(content, {embed}).then(msg => {
         Report.findOneAndUpdate({ _id: report._id }, { stance: "Denied", messageId: msg.id}, function (err) {
             if (err) {
@@ -166,7 +190,7 @@ function PlatformColor(platform){
             color = config.colors.marketing
             break;
         default:
-            color = "random"
+            color = "8b0000"
             break;
    }
    return color
