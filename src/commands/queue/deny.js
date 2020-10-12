@@ -35,6 +35,8 @@ module.exports = {
 			}
 		};
 
+		let stance = "";
+
 		const foundReport = await r({ reportID: id });
 		if (foundReport === null)
 			return message
@@ -48,6 +50,7 @@ module.exports = {
 			return message
 				.reply("This bug has been denied.")
 				.then((msg) => msg.delete({ timeout: 3000 }));
+		else if (foundReport.userID === message.author.id) stance = "Denied";
 
 		await Report.updateOne(
 			{ _id: foundReport._id },
@@ -55,6 +58,7 @@ module.exports = {
 				$push: {
 					denies: `${config.emotes.red} ${message.author.username}#${message.author.discriminator}: ${aMessage}`,
 				},
+				stance: stance,
 			}
 		);
 
