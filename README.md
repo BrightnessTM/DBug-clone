@@ -12,6 +12,11 @@ This is just a recreation of that bot, because I thought it would be a fun proje
 
 - Some of the commands of the bot are Bug Admin only and thus I am not aware of them and thus not impleted into the clone bot, some of the commands are pure guesswork and that I belive is in the real bot.
 
+## Information gathered from
+- [Discord Testers](https://discord.gg/discord-testers)
+- [The old Bug-Bot Github repo](https://github.com/SamEm/Bug-Bot)
+- [Testers Server Update Evernote](https://www.evernote.com/shard/s499/client/snv?noteGuid=5b0c101a-9b45-4ca0-a437-cbb03b5c9a16&noteKey=4cc332f33f99cf79b4467f87190a0847&sn=https%3A%2F%2Fwww.evernote.com%2Fshard%2Fs499%2Fsh%2F5b0c101a-9b45-4ca0-a437-cbb03b5c9a16%2F4cc332f33f99cf79b4467f87190a0847&title=Testers%2BServer%2BUpdates%2B12%252F18%252F19)
+
 ## Developer(s)
 👤 **y3ll0w**
 
