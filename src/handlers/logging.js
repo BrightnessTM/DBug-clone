@@ -8,8 +8,9 @@ module.exports = {
 		var hour = date.getHours();
 		var minute = date.getMinutes();
 
-		client.channels.cache
+		/*client.channels.cache
 			.get(config.channels.modLogs)
 			.send(`\`\`[${hour}:${minute}]\`\` ${log}`);
+			*/
 	},
 };
