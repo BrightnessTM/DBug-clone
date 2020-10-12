@@ -23,9 +23,7 @@ module.exports = {
       
         const foundReport = await r({reportID: id})
         if(foundReport === null) return message.reply("Hmm that report doesnt exist :(").then(msg => msg.delete({ timeout: 3000 }))
-        else if (foundReport.stance === "Approved" ) return message.reply("This bug has already been approved.").then(msg => msg.delete({ timeout: 3000 }))
-        else if (foundReport.stance === "Denied") return message.reply("This bug has been denied.").then(msg => msg.delete({ timeout: 3000 }))
-
+       
 
         await Report.findOneAndUpdate(
           { _id: foundReport._id }, 
