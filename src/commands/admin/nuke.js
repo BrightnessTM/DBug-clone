@@ -3,6 +3,7 @@ const clc = require("cli-color");
 const fs = require('fs');
 
 const json = fs.readFileSync("./src/config.json");
+const Log = require("../../handlers/logging")
 const config = JSON.parse(json)
 module.exports = {
 	name: "nuke",
@@ -33,6 +34,10 @@ module.exports = {
 
 
        client.channels.cache.get(config.channels.approvalQueue).messages.fetch(foundReport.messageId).then(msg => msg.delete())
+
+      cog.Send(client, `💣 Bug \`\`#${foundReport.reportID}\`\` submitted by ${foundReport.userTag} (${foundReport.userID}) got  **nuked** by **${message.author.username}**#${message.author.discriminator} (${message.author.id})`)
+      
+      return;
      
   },
 };

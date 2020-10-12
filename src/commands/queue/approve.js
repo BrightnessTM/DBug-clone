@@ -3,6 +3,7 @@ const ReportHandler = require("../../handlers/report")
 const fs = require('fs');
 
 const json = fs.readFileSync("./src/config.json");
+const Log = require("../../handlers/logging")
 const config = JSON.parse(json)
 
 const clc = require("cli-color");
@@ -38,7 +39,12 @@ module.exports = {
       );
 
       ReportHandler.UpdateStance(client,  await r({reportID: id}))
-      message.reply(`${config.emotes.green} Approved \`\`#${id}\`\` with the message *${aMessage}*`).then(msg => msg.delete({ timeout: 3000 }))
+      
+          
+      Log.Send(client, `✅ Bug \`\`#${foundReport.reportID}\`\` submitted by ${foundReport.userTag} (${foundReport.userID}) got **approved** by **${message.author.username}**#${message.author.discriminator} (${message.author.id})\n**Message:** ${aMessage}`)
+
+      
+      return message.reply(`${config.emotes.green} Approved \`\`#${id}\`\` with the message *${aMessage}*`).then(msg => msg.delete({ timeout: 3000 }))
 
       
   },

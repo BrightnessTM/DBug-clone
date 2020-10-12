@@ -1,6 +1,8 @@
 const Report = require("../../models/report")
 const ReportHandler = require("../../handlers/report")
 const clc = require("cli-color");
+const Log = require("../../handlers/logging")
+
 
 module.exports = {
 	name: "note",
@@ -31,6 +33,10 @@ module.exports = {
       );
 
       ReportHandler.UpdateStance(client,  await r({reportID: id}))
+      
+      Log.Send(client, `🏷️ Bug \`\`#${foundReport.reportID}\`\` submitted by ${foundReport.userTag} (${foundReport.userID}) got a **note** by **${message.author.username}**#${message.author.discriminator} (${message.author.id})\n**Message:** ${aMessage}`)
+      
+      return;
      
   },
 };

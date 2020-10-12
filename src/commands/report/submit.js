@@ -1,4 +1,5 @@
 const Report = require("../../handlers/report")
+const Log = require("../../handlers/logging")
 
 module.exports = {
 	name: "submit",
@@ -57,6 +58,9 @@ module.exports = {
         Report.Send(client, message, title, steps, actual, expected, clientSettings, systemSettings)
 
         message.delete({ timeout: 3000 })
+        
+        Log.Send(client, `💡 New bug report with the title \`\`${title}\`\` submitted by **${message.author.username}**#${message.author.discriminator} (${message.author.id})`)
+
         return message.reply(":tada:").then(msg => msg.delete({ timeout: 3000 }))
 	},
 };
