@@ -15,6 +15,8 @@ const reportSchema = mongoose.Schema({
 	approves: Array,
 	denies: Array,
 	notes: Array,
+	attachmentUrl: Array,
+	attachmentName: Array,
 	stance: String,
 	reportDate: Date,
 });
