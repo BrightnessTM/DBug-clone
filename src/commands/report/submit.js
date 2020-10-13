@@ -11,12 +11,7 @@ module.exports = {
 
 		let current = 0;
 
-		let title = "";
-		let steps = "";
-		let actual = "";
-		let expected = "";
-		let clientSettings = "";
-		let systemSettings = "";
+		let title = "", steps = "", actual = "", expected = "", clientSettings = "", systemSettings = "";
 
 		for (let i = 0; i < args.length; i++) {
 			switch (args[i]) {
@@ -73,6 +68,10 @@ module.exports = {
 			`💡 New bug report with the title \`\`${title}\`\` submitted by **${message.author.username}**#${message.author.discriminator} (${message.author.id})`
 		);
 
-		return message.reply(":tada:").then((msg) => msg.delete({ timeout: 3000 }));
+		return message.reply(":tada:").catch(err => {
+        		if (err) return;
+    		}).then(msg => {
+        		if (msg) { msg.delete({ timeout: 3000 }).catch(err => { return err; }) }
+    		});
 	},
 };
