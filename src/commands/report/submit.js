@@ -56,6 +56,11 @@ module.exports = {
 		}
 
 		steps = steps.split("-");
+		
+		if ([!title, !steps, !actual, !expected, !clientSettings, !systemSettings].includes(true))
+			return message
+				.reply("You must provide a title, steps to reproduce, actual result, expected result, client settings, and system settings. For assistance formatting your report, use <https://testersqts.github.io/bug-report-tool/>")
+				.then((msg) => msg.delete({ timeout: 3000 }));
 
 		Report.Send(
 			client,
