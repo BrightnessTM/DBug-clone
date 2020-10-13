@@ -14,9 +14,9 @@ module.exports = {
 			.then((msg) => msg.delete({ timeout: 3000 }));
 
 		let title = "", steps = "", actual = "", expected = "", clientSettings = "", systemSettings = "";
+		let current = 0;
 
 		for (let i = 0; i < args.length; i++) {
-			let current = 0;
 			switch (args[i]) {
 				case "-t":
 					current = 1;

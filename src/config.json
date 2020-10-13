@@ -1,6 +1,6 @@
 {
 	"guildID": "763859524351164436",
-	"prefix": "!",
+	"prefix": "b!",
 
 	"channels": {
 		"approvalQueue": "764935984986980363",
@@ -38,6 +38,12 @@
 		"android": "77dd77",
 		"ios": "b7aecf",
 		"marketing": "19B4E1"
+	},
+
+	"levels": {
+		"2": "bugSquasher",
+		"5": "bugTracker",
+		"10": "bugTerminator"
 	},
 
 	"emotes": {
