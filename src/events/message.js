@@ -3,7 +3,7 @@ const json = fs.readFileSync("./src/config.json");
 
 module.exports = async (client, message) => {
 	const config = JSON.parse(json);
-	if (config.guildID !== message.guild.id) return;
+	if (message.guild && config.guildID !== message.guild.id) return;
 	let prefix = config.prefix;
 
 	if (message.author.bot) return;

@@ -218,6 +218,7 @@ async function grantRoles (user, client) {
 	let m = await client.guilds.cache.get(guildID).members.cache.get(user);
 	if (!m) return;
 	let level = levels[Object.keys(levels).filter(r => reports.length >= r).sort((a, b) => b - a)[0]];
+	if (!level) return;
 	let roleId = roles[level.role];
 	let nonRoles = Object.values(levels).filter(r => r.role !== level.role && m.roles.cache.has(roles[r.role]));
 	if (roleId && !m.roles.cache.has(roleId)) {
