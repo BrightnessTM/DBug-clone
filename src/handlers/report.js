@@ -66,29 +66,7 @@ module.exports = {
 			.setTimestamp(message.embeds[0].timestamp)
 			.setFooter(message.embeds[0].footer.text);
 
-		if (report.approves.length > 0) {
-			let message = "";
-			report.approves.forEach((a) => {
-				message += `${a} \n`;
-			});
-			embed.addField("Approved", message);
-		}
-
-		if (report.denies.length > 0) {
-			let message = "";
-			report.denies.forEach((d) => {
-				message += `${d} \n`;
-			});
-			embed.addField("Denied", message);
-		}
-
-		if (report.notes.length > 0) {
-			let message = "";
-			report.notes.forEach((n) => {
-				message += `${n} \n`;
-			});
-			embed.addField("Notes", message);
-		}
+		AddData(report, embed);
 
 		message.edit(message.content, { embed });
 
@@ -113,28 +91,7 @@ function ApprovedBug(client, report, oEmbed) {
 		.setTimestamp(oEmbed.timestamp)
 		.setFooter(oEmbed.footer.text);
 
-	if (report.approves.length > 0) {
-		let message = "";
-		report.approves.forEach((r) => {
-			message += `${r} \n`;
-		});
-		embed.addField("Can Reproduce", message);
-	}
-	if (report.denies.length > 0) {
-		let message = "";
-		report.denies.forEach((r) => {
-			message += `${r} \n`;
-		});
-		embed.addField("Cannot Reproduce", message);
-	}
-
-	if (report.notes.length > 0) {
-		let message = "";
-		report.notes.forEach((n) => {
-			message += `${n} \n`;
-		});
-		embed.addField("Notes", message);
-	}
+	AddData(report, embed);
 
 	client.channels.cache
 		.get(report.platform)
@@ -170,6 +127,29 @@ function DeniedBug(client, report, oEmbed, content) {
 		.setTimestamp(oEmbed.timestamp)
 		.setFooter(oEmbed.footer.text);
 
+	AddData(report, embed);
+
+	client.channels.cache
+		.get(config.channels.deniedBugs)
+		.send(content, { embed })
+		.then((msg) => {
+			Report.findOneAndUpdate(
+				{ _id: report._id },
+				{ stance: "Denied", messageId: msg.id },
+				function (err) {
+					if (err) {
+						console.error(err);
+					}
+				}
+			);
+		});
+	client.channels.cache
+		.get(config.channels.approvalQueue)
+		.messages.fetch(report.messageId)
+		.then((msg) => msg.delete());
+}
+
+function AddData(report, embed) {
 	if (report.approves.length > 0) {
 		let message = "";
 		report.approves.forEach((r) => {
@@ -193,24 +173,18 @@ function DeniedBug(client, report, oEmbed, content) {
 		embed.addField("Notes", message);
 	}
 
-	client.channels.cache
-		.get(config.channels.deniedBugs)
-		.send(content, { embed })
-		.then((msg) => {
-			Report.findOneAndUpdate(
-				{ _id: report._id },
-				{ stance: "Denied", messageId: msg.id },
-				function (err) {
-					if (err) {
-						console.error(err);
-					}
-				}
-			);
-		});
-	client.channels.cache
-		.get(config.channels.approvalQueue)
-		.messages.fetch(report.messageId)
-		.then((msg) => msg.delete());
+	const filter = report.attachmentName.filter(function (el) {
+		return el != null;
+	});
+
+	if (filter.length > 0) {
+		let message = "";
+		for (let i = 0; i < report.attachmentUrl.length; i++)
+			if (report.attachmentName[i] !== null)
+				message += `[${report.attachmentName[i]}](${report.attachmentUrl[i]})\n`;
+
+		embed.addField("Attachments", message);
+	}
 }
 
 function PlatformColor(platform) {
