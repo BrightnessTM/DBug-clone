@@ -41,9 +41,18 @@
 	},
 
 	"levels": {
-		"2": "bugSquasher",
-		"5": "bugTracker",
-		"10": "bugTerminator"
+		"2": {
+			"role": "bugSquasher",
+			"response": ":star::star:Rank up!:star::star:\n:tada: Congratulations, you have achieved the rank of Bug Squasher!\n\nUnlocked: \n- Bug Hunter Bug Chat\n- Approval Queue"
+		},
+		"5": {
+			"role": "bugTracker",
+			"response": ":star::star:Rank up!:star::star:\n:tada: Congratulations, you have achieved the rank of Bug Tracker!\n\nUnlocked: \n- Discord Focus Test Priority Pass\n- Bug Hunter Badge (Green)"
+		},
+		"10": {
+			"role": "bugTerminator",
+			"response": ":star::star:Rank up!:star::star:\n:tada: Congratulations, you have achieved the rank of Bug Terminator!\n\nUnlocked: \n- Bug Hunter Badge (Gold)"
+		}
 	},
 
 	"emotes": {

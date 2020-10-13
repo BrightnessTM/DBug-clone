@@ -217,17 +217,18 @@ async function grantRoles (user, client) {
 	await client.guilds.cache.get(guildID).members.fetch(user).catch(() => {});
 	let m = await client.guilds.cache.get(guildID).members.cache.get(user);
 	if (!m) return;
-	let role = levels[Object.keys(levels).filter(r => reports.length >= r).sort((a, b) => b - a)[0]];
-	let roleId = roles[role];
-	let nonRoles = Object.values(levels).filter(r => r !== role && m.roles.cache.has(roles[r]));
-	if (role && !m.roles.cache.has(roleId)) {
-		await m.roles.add(roleId, `Reached ${role}`);
+	let level = levels[Object.keys(levels).filter(r => reports.length >= r).sort((a, b) => b - a)[0]];
+	let roleId = roles[level.role];
+	let nonRoles = Object.values(levels).filter(r => r.role !== level.role && m.roles.cache.has(roles[r.role]));
+	if (roleId && !m.roles.cache.has(roleId)) {
+		await m.roles.add(roleId, `Reached ${level.role}`);
 		Log.Send(
 			client,
 			`⬆️ **${m.user.username}**#${m.user.discriminator} (${m.id}) achieved the rank of ${m.guild.roles.cache.get(roleId).name}`
 		);
+		m.user.send(level.response).catch(() => {});
 	}
 	for await (let r of nonRoles) {
-		await m.roles.remove(roles[r], "Reached other role");
+		await m.roles.remove(roles[r.role], "Reached other role");
 	}
 }
