@@ -41,6 +41,10 @@
 	},
 
 	"levels": {
+		"0": {
+			"role": "bugHunter",
+			"response": "You should never see this message :eyes:"
+		},
 		"2": {
 			"role": "bugSquasher",
 			"response": ":star::star:Rank up!:star::star:\n:tada: Congratulations, you have achieved the rank of Bug Squasher!\n\nUnlocked: \n- Bug Hunter Bug Chat\n- Approval Queue"

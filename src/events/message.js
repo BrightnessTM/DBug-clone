@@ -7,9 +7,8 @@ module.exports = async (client, message) => {
 	let prefix = config.prefix;
 
 	if (message.author.bot) return;
-	if (!message.guild) return;
 	if (!message.content.startsWith(prefix)) return;
-	if (!message.member)
+	if (message.guild && !message.member)
 		message.member = await message.guild.fetchMember(message);
 
 	const args = message.content.slice(prefix.length).trim().split(/ +/g);
@@ -21,15 +20,18 @@ module.exports = async (client, message) => {
 	if (!command) command = client.commands.get(client.aliases.get(cmd));
 
 	if (command) {
-		let allowed = false;
-		if (command.roles.length === 0) allowed = true;
-		command.roles.forEach((r) => {
-			if (message.member.roles.cache.has(r)) allowed = true;
-		});
-		if (allowed) command.run(client, message, args);
-		else
-			return message.channel
+		if (message.guild) {
+			let allowed = false;
+			if (command.roles.length === 0) allowed = true;
+			command.roles.forEach((r) => {
+				if (message.member.roles.cache.has(r)) allowed = true;
+			});
+			if (allowed) command.run(client, message, args);
+		} else {
+			if (command.dmAllowed) command.run(client, message, args);
+			else return message.channel
 				.send("🔒 Missing permissions ")
-				.then((msg) => msg.delete({ timeout: 3000 }));
+				.then((msg) => msg.delete({timeout: 3000}));
+		}
 	}
 };
