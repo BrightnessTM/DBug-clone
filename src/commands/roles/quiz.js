@@ -4,7 +4,7 @@ const Log = require("../../handlers/logging");
 module.exports = {
     name: "quiz",
     category: "roles",
-    description: "Sends the bug hunterquiz",
+    description: "Sends the bug hunter quiz",
     roles: [],
     dmAllowed: true,
     run: async (client, message, args) => {
@@ -27,7 +27,7 @@ module.exports = {
             `⬆️ **${m.user.username}**#${m.user.discriminator} (${m.id}) achieved the rank of Bug Hunter`
         );
         await m.roles.add(bugHunter);
-        return message.channel.send(":star::star:Rank up!:star::star:\n:tada: Congratulations, you have achieved the rank of Bug Squasher!\n\nUnlocked:\n- Bug Hunter Announcements\n- Bug Hunter General Chat\n- Bug Submission");
+        return message.channel.send(":star::star:Rank up!:star::star:\n:tada: Congratulations, you have achieved the rank of Bug Hunter!\n\nUnlocked:\n- Bug Hunter Announcements\n- Bug Hunter General Chat\n- Bug Submission");
     }
 };
 
